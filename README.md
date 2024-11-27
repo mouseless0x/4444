@@ -9,11 +9,11 @@ This repo contains three components to mine for the Uniswap V4 address:
 
 ## Log Aggregator
 
-This instance will collect logs from all your vastai instances. It will only forward the highest salt to a tg channel.
+This service will collect logs from all your vastai boxes. It will only forward the highest salt to a tg channel.
 
 ### Usage
 
-1. Setup a tg bot using [botfather](t.me/botfather) + tg channel ([how to get channel id](https://stackoverflow.com/questions/33858927/how-to-obtain-the-chat-id-of-a-private-telegram-channel))
+1. Setup a tg bot using [botfather](t.me/botfather) + tg channel
 
 2. Host server using railway
 ```bash
@@ -21,18 +21,18 @@ cd log-aggregator
 railway init
 railway up
 ```
-> You will need to supply the env vars `BOT_TOKEN` and `CHANNEL_ID` on your railway dashboard
+> You will need to supply the env vars `BOT_TOKEN` and `CHANNEL_ID` on your railway dashboard ([how to get your CHANNEL_ID](https://stackoverflow.com/questions/33858927/how-to-obtain-the-chat-id-of-a-private-telegram-channel))
 
 
 ## Modified create2crunch
 
-Modified create2crunch that scores addresses based on [Uniswap's challenge criteria](https://github.com/Uniswap/v4-periphery/blob/3f295d8435e4f776ea2daeb96ce1bc6d63f33fc7/src/libraries/VanityAddressLib.sol#L16-L22). This might not be the best way. I one shotted a prompt, it looked good, but it's probably not optimal.
+Modified create2crunch that scores addresses based on [Uniswap's challenge criteria](https://github.com/Uniswap/v4-periphery/blob/3f295d8435e4f776ea2daeb96ce1bc6d63f33fc7/src/libraries/VanityAddressLib.sol#L16-L22). I one shotted a prompt, it looked good, and is most likely not the optimal approach.
 
 ### Usage
 
 #### Creating template on vastai
 
-Head to [cloud.vast.ai/templates/edit](https://cloud.vast.ai/templates/edit). You can pull the docker-image [`mousless/fourfourfourfour`](https://hub.docker.com/repository/docker/mousless/fourfourfourfour/general) if you want to skip building your own.
+Head to [cloud.vast.ai/templates/edit](https://cloud.vast.ai/templates/edit). You can use the docker image [`mousless/fourfourfourfour`](https://hub.docker.com/repository/docker/mousless/fourfourfourfour/general) to skip building it yourself.
 
 Fill in the `on-startup Script` section with the following
 ```bash
@@ -46,13 +46,14 @@ for i in $(seq 0 $(($(clinfo | awk '/Platform Name/ {pname=$3} /Number of device
   > "log_$i.txt" 2>&1 &
 done
 ```
-> Note the zero address is being used in the salt meaning there is no frontrunning protection
+> Note: the zero address is being used in the salt meaning there is no frontrunning protection
+> Note: replace `$YOUR_RAILWAY_ENDPOINT_URL_HERE` with your log-aggregator's endpoint
 
 ## GPU Bidder
 
-vastai offers interruptable boxes where users can place bids on GPUs at a much lower price compared to renting. This is a simple script to periodically place bids on RTX 4090s (up to $0.2/h).
+vastai offers interruptable biddable boxes at a much lower price compared to renting. This is a simple script to periodically place bids on RTX 4090s (up to $0.2/h).
 
-#### Running
+### Usage
 ```bash
 cd bidder
 railway init
