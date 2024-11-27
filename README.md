@@ -2,14 +2,14 @@
 
 This repo contains three components to mine for the Uniswap V4 address:
 - Modified version of [create2crunch](https://github.com/0age/create2crunch)
-- Server instance to aggregate logs and forward salts to tg channel
+- Server instance to collect logs and forward salts to tg
 - Script to bid on vastai instances
 
 # Running
 
 ## Log Aggregator
 
-This service will collect logs from all your vastai boxes. It will only forward the highest salt to a tg channel.
+This service will collect logs from all your vastai boxes. It will only forward the highest salt to tg.
 
 ### Usage
 
@@ -47,6 +47,7 @@ for i in $(seq 0 $(($(clinfo | awk '/Platform Name/ {pname=$3} /Number of device
 done
 ```
 > Note: the zero address is being used in the salt meaning there is no frontrunning protection
+
 > Note: replace `$YOUR_RAILWAY_ENDPOINT_URL_HERE` with your log-aggregator's endpoint
 
 ## GPU Bidder
