@@ -7,7 +7,7 @@ This repo contains three components to mine for the Uniswap V4 address:
 
 # Running
 
-## Log Aggregator Server
+## Log Aggregator
 
 This instance will collect logs from all your vastai instances. It will only forward the highest salt to a tg channel.
 
