@@ -1,0 +1,6 @@
+/target
+**/*.rs.bk
+.DS_Store
+efficient_addresses.txt
+.env
+*/node_modules/
