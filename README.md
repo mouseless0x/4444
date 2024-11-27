@@ -5,13 +5,15 @@ This repo contains three components to mine for the Uniswap V4 address:
 - Server instance to aggregate logs and forward salts to tg channel
 - Script to bid on vastai instances
 
-...
-
 # Running
 
-### Start The Log Aggregator Server
+## Log Aggregator Server
 
-1. Setup a new tg bot + channel ([how to get the channel id](https://stackoverflow.com/questions/33858927/how-to-obtain-the-chat-id-of-a-private-telegram-channel))
+This instance will collect logs from all your vastai instances. It will only forward the highest salt to a tg channel.
+
+### Usage
+
+1. Setup a tg bot using [botfather](t.me/botfather) + tg channel ([how to get channel id](https://stackoverflow.com/questions/33858927/how-to-obtain-the-chat-id-of-a-private-telegram-channel))
 
 2. Host server using railway
 ```bash
@@ -22,7 +24,13 @@ railway up
 > You will need to supply the env vars `BOT_TOKEN` and `CHANNEL_ID` on your railway dashboard
 
 
-### Creating template on vastai
+## Modified create2crunch
+
+Modified create2crunch that scores addresses based on [Uniswap's challenge criteria](https://github.com/Uniswap/v4-periphery/blob/3f295d8435e4f776ea2daeb96ce1bc6d63f33fc7/src/libraries/VanityAddressLib.sol#L16-L22). This might not be the best way. I one shotted a prompt, it looked good, but it's probably not optimal.
+
+### Usage
+
+#### Creating template on vastai
 
 Head to [cloud.vast.ai/templates/edit](https://cloud.vast.ai/templates/edit). You can pull the docker-image [`mousless/fourfourfourfour`](https://hub.docker.com/repository/docker/mousless/fourfourfourfour/general) if you want to skip building your own.
 
@@ -38,24 +46,13 @@ for i in $(seq 0 $(($(clinfo | awk '/Platform Name/ {pname=$3} /Number of device
   > "log_$i.txt" 2>&1 &
 done
 ```
-> Note that this is setting msg.sender as the zero address meaning anyone can submit your salt.
+> Note the zero address is being used in the salt meaning there is no frontrunning protection
 
-### Building Docker Image (Optional)
+## GPU Bidder
 
-There is probably a much better way to mod create2crunch for this challenge. I just one shotted a prompt, it looked good, but it likely isn't the optimal solution.
+vastai offers interruptable boxes where users can place bids on GPUs at a much lower price compared to renting. This is a simple script to periodically place bids on RTX 4090s (up to $0.2/h).
 
-```bash
-cd create2crunch
-docker build -t fourfourfourfour .
-docker tag fourfourfourfour ${YOUR_DOCKERHUB_USERNAME}/fourfourfourfour:latest
-docker push ${YOUR_DOCKERHUB_USERNAME}/fourfourfourfour:latest
-```
-
-### Setting up vastai bidder
-
-vastai offers interruptable boxes where users can place bids on GPUs at a much lower price compared to straight out renting. This is a simple script to periodically place bids on RTX 4090s (up to $0.2/h)
-
-Running bidder:
+#### Running
 ```bash
 cd bidder
 railway init
