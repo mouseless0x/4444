@@ -52,7 +52,7 @@ done
 
 ## GPU Bidder
 
-vastai offers interruptable biddable boxes at a much lower price compared to renting. This is a simple script to periodically place bids on RTX 4090s (up to $0.2/h).
+vastai offers interruptible boxes at a much lower price compared to renting. This is a simple script to periodically place bids on RTX 4090s (up to $0.2/h).
 
 ### Usage
 ```bash
