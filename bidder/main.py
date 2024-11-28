@@ -10,7 +10,7 @@ def check_and_create_instances():
 
     # Get API key from environment variables
     api_key = os.getenv('VAST_API_KEY')
-    template_hash = os.getenv('TEMPLATE_HASH')
+    template_hash = os.getenv('VAST_TEMPLATE_HASH')
     vast_sdk = VastAI(api_key=api_key)
 
     # Check available machines
