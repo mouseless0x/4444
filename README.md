@@ -5,7 +5,9 @@ This repo contains three components to mine for the Uniswap V4 address:
 - Server instance to collect logs and forward salts to tg
 - Script to bid on vastai instances
 
-> **Info**: This same setup has been used to mine the paymaster addresses `0x0000000000000039cd5e8ae05257ce51c473ddd1` and `0x00000000000000fb866daaa79352cc568a005d96` in just 12 hours
+> **Info**: This exact setup has been used to mine these addresses in just 12 hours each:
+> - `0x0000000000000039cd5e8ae05257ce51c473ddd1` `(paymaster v0.6)`
+> - `0x00000000000000fb866daaa79352cc568a005d96` `(paymaster v0.7)`
 
 # Running
 
